@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.Scanner;
 
+import model.data_structures.ArregloDinamico;
 import model.data_structures.ILista;
 import model.logic.Modelo;
 import model.logic.YoutubeVideo;
@@ -20,8 +21,10 @@ public class Controller {
 	/**
 	 * Crear la vista y el modelo del proyecto
 	 * @param capacidad tamaNo inicial del arreglo
+	 * @throws IOException 
+	 * @throws ParseException 
 	 */
-	public Controller ()
+	public Controller () throws ParseException, IOException
 	{
 		view = new View();
 		modelo = new Modelo();
@@ -42,37 +45,24 @@ public class Controller {
 			int option = lector.nextInt();
 			switch(option){
 				case 1:
-					view.printMessage("Cargando datos en el sistema...");
-					String r;
-				try {
-					modelo.cargarId();
-					r = modelo.cargarDatos();
-					view.printMessage("------------------------------------------");
-					view.printMessage(r);
-					view.printMessage("-------");
-				} catch (IOException e) {
+					view.printMessage("Inicializando...");
+					try {
+					view.printMessage(modelo.cargar());
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 					
-					e.printStackTrace();
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}											
-					break;
-
+				break;
+				
 				case 2:
-					view.printMessage("Ingrese: pais, categoria");
-					dato = lector.next();
-					String[] i = dato.split(",");
-					ILista<YoutubeVideo> l  = modelo.req2(i[1].replace("-", " ").trim(), i[0].replace("-", " ").trim());
-					if(l!=null)
-						view.imprimirVideoReq1(l,l.size());
-					else
-						view.printMessage("Caso especial: no hay pais con la categoria seleccionada(o escribiste mal)");
-					break;
 					
+					break;					
 				case 3:
-					view.printMessage("Ingrese: pais, categoria");
-					view.printMessage("El tiempo promedio es: "+modelo.pruebaGet()+" Milisegundos");
-					break;
+					
 				case 4:
 					view.printMessage("Pruebas de desempeño");
 					break;

@@ -142,16 +142,17 @@ public class NodoArbol<K extends Comparable<K>, V> implements Comparable<NodoArb
 		this.color = color;
 	}
 	
-	public NodoArbol<K, V> put(NodoArbol<K,V> nodo,NodoArbol<K,V> nuevo){
+	public NodoArbol<K, V> put(NodoArbol<K,V> nuevo){
+		NodoArbol<K, V> nodo = this;
 		if(nuevo.darLlave().compareTo(llave)<0){
 			if(izquierdo!=null)
-				izquierdo.put(nodo,nuevo);
+				izquierdo = izquierdo.put(nuevo);
 				else
 					izquierdo =nuevo;
 		}
 		else if (nuevo.darLlave().compareTo(llave)>0){
 			if(derecho!=null)
-				derecho.put(nodo,nuevo);
+				derecho = derecho.put(nuevo);
 		     	else
 		     		derecho = nuevo;
 		}
@@ -159,10 +160,12 @@ public class NodoArbol<K extends Comparable<K>, V> implements Comparable<NodoArb
 			valor = nuevo.darValor();
 		}
 		
-		if((nodo.darDerecho()!=null&&nodo.darIzquierdo()!=null)&&(nodo.darDerecho().darColor().equals("rojo"))&&!nodo.darIzquierdo().darColor().equals("rojo"))
-			nodo = RL(nodo);
-		if((nodo.darIzquierdo()!=null&&nodo.darDerecho()!=null)&&(nodo.darIzquierdo().darColor().equals("rojo"))&&nodo.darIzquierdo().darColor().equals("rojo"))
-			nodo = RL(nodo);
+		if(nodo.darDerecho()!=null&&(nodo.darDerecho().darColor().equals("rojo"))){
+			if (nodo.darIzquierdo()==null||(nodo.darIzquierdo()!=null&&nodo.darIzquierdo().darColor().equals("negro")))
+				nodo = RL(nodo);
+			}
+		if((nodo.darIzquierdo()!=null&&nodo.darIzquierdo().darIzquierdo()!=null)&&(nodo.darIzquierdo().darColor().equals("rojo"))&&nodo.darIzquierdo().darIzquierdo().darColor().equals("rojo"))
+			nodo = RD(nodo);
 		if((nodo.darDerecho()!=null&&nodo.darIzquierdo()!=null)&&(nodo.darIzquierdo().darColor().equals("rojo"))&&(nodo.darDerecho().darColor().equals("rojo")))
 			FC(nodo);
 		

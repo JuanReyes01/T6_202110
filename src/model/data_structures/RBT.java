@@ -41,16 +41,14 @@ public class RBT<K extends Comparable<K>, V extends Comparable<V>> implements IT
 		return get(key)!=null;
 	}
 
-	/**
-	 * Falta
-	 */
+	
 	public void put(K key, V val) {
 		NodoArbol<K, V> nuevo = new NodoArbol<K,V>(key, val);
 		if(raiz==null){
 			raiz = nuevo;
 		}
 		else{
-			raiz = raiz.put(raiz, nuevo);
+			raiz = raiz.put(nuevo);
 		}
 		n++;
 		raiz.asignarColor("negro");
